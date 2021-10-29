@@ -16,3 +16,10 @@ class User(AbstractUser):
     email = models.EmailField(unique = True, blank = False)
     bio = models.CharField(max_length=520, blank = True)
 # Create your models here.
+
+class Post(models.Model):
+    author = models.ForeignKey("User", blank = False, on_delete = models.CASCADE)
+    text = models.CharField(max_length = 280)
+    created_at = models.DateTimeField(auto_now_add = True)
+    class Meta:
+        ordering = ['-created_at']

@@ -9,5 +9,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for accountUser in User.objects.all():
-            if accountUser.username != "@admin":
+            if accountUser.username  != "@admin":
                 accountUser.delete()
