@@ -1,4 +1,3 @@
-"""Unit tests for user model."""
 from django.test import TestCase
 from microblogs.models import User
 from django.core.exceptions import ValidationError
