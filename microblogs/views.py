@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from .forms import SignUpForm, LogInForm
 
@@ -15,6 +16,7 @@ def log_in(request):
             if user is not None:
                 login(request, user)
                 return redirect('feed')
+        messages.add_message(request, messages.ERROR, "The credenitals provided were invalid")
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form})
 
