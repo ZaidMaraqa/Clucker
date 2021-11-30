@@ -2,10 +2,11 @@ from django.test import TestCase
 from microblogs.forms import SignUpForm
 from django.urls import reverse
 from microblogs.models import User
-from .helpers import LogInTester
+from microblogs.tests.helpers import LogInTester
 from django.contrib.auth.hashers import check_password
 
 class SignUpViewTestCase(TestCase, LogInTester):
+
 
     def setUp(self):
         self.url = reverse('sign_up')

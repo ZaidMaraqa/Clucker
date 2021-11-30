@@ -4,6 +4,8 @@ from microblogs.forms import LogInForm
 
 class LogInFormTestCase(TestCase):
 
+    
+
     def setUp(self):
         self.form_input = {'username': '@janedoe', 'password': 'Password123'}
 

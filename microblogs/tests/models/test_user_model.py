@@ -3,17 +3,14 @@ from microblogs.models import User
 from django.core.exceptions import ValidationError
 
 class UserModelTestCase(TestCase):
+
+    fixtures = [
+    'microblogs/tests/fixtures/default_user.json',
+    'microblogs/tests/fixtures/other_users.json'
+    ]
+
     def setUp(self):
-        self.user = User.objects.create_user(
-        '@johndoe',
-        first_name = 'John',
-        last_name = 'Doe',
-        email = 'johndoe@example.org',
-        password = 'password123',
-        bio = 'The quick brown fox jumps over the lazy dog.'
-
-        )
-
+        self.user = User.objects.get(username = '@johndoe')
     def test_valid_user(self):
 
         self._assert_user_is_valid()
@@ -28,16 +25,8 @@ class UserModelTestCase(TestCase):
         self._assert_user_is_valid()
 
     def test_username_must_be_unique(self):
-        User.objects.create_user(
-        '@janedoe',
-        first_name = 'Jane',
-        last_name = 'Doe',
-        email = 'janedoe@example.org',
-        password = 'password1234',
-        bio = 'The quick brown fox jumps over the lazy  bug dog.'
-
-        )
-        self.user.username = '@janedoe'
+        second_user = User.objects.get(username='@janedoe')
+        self.user.username = second_user.username
         self._assert_user_is_invalid()
 
     def test_username_starts_with_at_symbol(self):
@@ -69,16 +58,8 @@ class UserModelTestCase(TestCase):
         self._assert_user_is_invalid()
 
     def test_first_name_can_be_repeated(self):
-        User.objects.create_user(
-        '@Bradedoe',
-        first_name = 'Brad',
-        last_name = 'Doe',
-        email = 'braddoe@example.org',
-        password = 'password12345',
-        bio = 'I am the famous brad'
-
-        )
-        self.user.first_name = 'Brad'
+        second_user = User.objects.get(username='@janedoe')
+        self.user.first_name = second_user.first_name
         self._assert_user_is_valid()
 
     def test_first_name_can_be_50_characters_long(self):
@@ -93,17 +74,9 @@ class UserModelTestCase(TestCase):
         self.user.last_name = ''
         self._assert_user_is_invalid()
 
-    def test_firs_name_can_be_repeated(self):
-        User.objects.create_user(
-        '@Bendon',
-        first_name = 'Ben',
-        last_name = 'Don',
-        email = 'bendon@example.org',
-        password = 'password1245',
-        bio = 'I am the famous ben'
-
-        )
-        self.user.last_name = 'Don'
+    def test_last_name_can_be_repeated(self):
+        second_user = User.objects.get(username='@janedoe')
+        self.user.last_name = second_user.last_name
         self._assert_user_is_valid()
 
     def test_last_name_can_be_longer_50_characters_long(self):
@@ -115,16 +88,8 @@ class UserModelTestCase(TestCase):
         self._assert_user_is_invalid()
 
     def test_email_must_be_unique(self):
-        User.objects.create_user(
-        '@Bendoe',
-        first_name = 'Ben',
-        last_name = 'Doe',
-        email = 'bendoe@example.org',
-        password = 'password123345',
-        bio = 'I am the famous ben doe'
-
-        )
-        self.user.email = 'bendoe@example.org'
+        second_user = User.objects.get(username='@janedoe')
+        self.user.email = second_user.email
         self._assert_user_is_invalid()
 
     def test_email_must_contain_username(self):
@@ -148,16 +113,8 @@ class UserModelTestCase(TestCase):
         self._assert_user_is_valid()
 
     def tes_bio_need_not_be_unique(self):
-        User.objects.create_user(
-        '@Bethdon',
-        first_name = 'Beth',
-        last_name = 'Don',
-        email = 'bethdon@example.org',
-        password = 'password1245',
-        bio = 'I am the famous beth'
-
-        )
-        self.user.bio = 'I am the famous beth'
+        second_user = User.objects.get(username='@janedoe')
+        self.user.bio = second_user.bio
         self._assert_user_is_valid()
 
     def tes_bio_may_be_520_characters_long(self):
