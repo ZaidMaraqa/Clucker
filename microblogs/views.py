@@ -7,11 +7,21 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 
+
+def login_prohbited(view_function):
+    def modified_view_function(request):
+        if request.user.is_authenticated:
+            return redirect('feed')
+        else:
+            return view_function(request)
+    return modified_view_function
+
 @login_required
 def feed(request):
     form = PostForm()
     return render(request, 'feed.html', {'form': form})
 
+@login_prohbited
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
