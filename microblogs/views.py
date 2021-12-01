@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 
+@login_required
 def feed(request):
     form = PostForm()
     return render(request, 'feed.html', {'form': form})
