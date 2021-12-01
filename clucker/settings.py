@@ -136,6 +136,8 @@ AUTH_USER_MODEL = 'microblogs.user'
 
 LOGIN_URL = 'log_in'
 
+REDIRECT_URL_WHEN_LOGGED_IN = 'feed'
+
 MESSAGE_TAGS = {
     message_constants.DEBUG: 'dark',
     message_constants.ERROR: 'danger',

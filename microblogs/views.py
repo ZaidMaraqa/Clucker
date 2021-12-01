@@ -6,15 +6,7 @@ from .models import Post, User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-
-
-def login_prohbited(view_function):
-    def modified_view_function(request):
-        if request.user.is_authenticated:
-            return redirect('feed')
-        else:
-            return view_function(request)
-    return modified_view_function
+from .helpers import login_prohbited
 
 @login_required
 def feed(request):
@@ -38,9 +30,11 @@ def log_in(request):
     next = request.GET.get('next') or ''
     return render(request, 'log_in.html', {'form': form, 'next' : next})
 
+@login_prohbited
 def home(request):
     return render(request, 'home.html')
 
+@login_prohbited
 def sign_up(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
