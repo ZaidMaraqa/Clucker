@@ -5,6 +5,7 @@ from .forms import SignUpForm, LogInForm, PostForm
 from .models import Post, User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
 
 def feed(request):
     form = PostForm()
@@ -19,10 +20,12 @@ def log_in(request):
             user = authenticate(username = username, password = password)
             if user is not None:
                 login(request, user)
-                return redirect('feed')
+                redirect_url = request.POST.get('next') or 'feed'
+                return redirect(redirect_url)
         messages.add_message(request, messages.ERROR, "The credenitals provided were invalid")
     form = LogInForm()
-    return render(request, 'log_in.html', {'form': form})
+    next = request.GET.get('next') or ''
+    return render(request, 'log_in.html', {'form': form, 'next' : next})
 
 def home(request):
     return render(request, 'home.html')
@@ -38,10 +41,12 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {"form": form})
 
+@login_required
 def user_list(request):
     users = User.objects.all()
     return render(request, 'user_list.html', {'users': users})
 
+@login_required
 def show_user(request, user_id):
     try:
         user = User.objects.get(id=user_id)
@@ -49,6 +54,7 @@ def show_user(request, user_id):
         return redirect('user_list')
     else:
         return render(request, 'show_user.html', {'user': user})
+
 def new_post(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
