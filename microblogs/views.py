@@ -11,7 +11,9 @@ from .helpers import login_prohbited
 @login_required
 def feed(request):
     form = PostForm()
-    return render(request, 'feed.html', {'form': form})
+    current_user = request.user
+    posts = Post.objects.filter(author=current_user)
+    return render(request, 'feed.html', {'form': form, 'posts': posts})
 
 @login_prohbited
 def log_in(request):
