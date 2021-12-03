@@ -11,5 +11,31 @@
       "password": "pbkdf2_sha256$260000$J3utVdAm0YtSFGYzGPkqVd$chLVedEEAW4u+E5fC1jlyClQ2lYDYU4rDzYrAFn/GNU=",
       "is_active": true
     }
+  },
+  {
+    "model": "microblogs.user",
+    "pk": 3,
+    "fields": {
+      "first_name": "Petra",
+      "last_name": "Pickles",
+      "username": "@petrapickles",
+      "email": "petrapickles@example.org",
+      "bio": "Hello, I'm Petra Pickles.",
+      "password": "pbkdf2_sha256$260000$J3utVdAm0YtSFGYzGPkqVd$chLVedEEAW4u+E5fC1jlyClQ2lYDYU4rDzYrAFn/GNU=",
+      "is_active": true
+    }
+  },
+  {
+    "model": "microblogs.user",
+    "pk": 4,
+    "fields": {
+      "first_name": "Peter",
+      "last_name": "Pickles",
+      "username": "@peterpickles",
+      "email": "peterpickles@example.org",
+      "bio": "Hello, I'm Peter Pickles.",
+      "password": "pbkdf2_sha256$260000$J3utVdAm0YtSFGYzGPkqVd$chLVedEEAW4u+E5fC1jlyClQ2lYDYU4rDzYrAFn/GNU=",
+      "is_active": true
+    }
   }
 ]
