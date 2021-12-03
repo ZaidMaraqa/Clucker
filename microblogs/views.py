@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, LogInForm, PostForm
 from .models import Post, User
 from django.core.exceptions import ObjectDoesNotExist
@@ -34,6 +34,10 @@ def log_in(request):
 def home(request):
     return render(request, 'home.html')
 
+def log_out(request):
+    logout(request)
+    return redirect('home')
+
 @login_prohbited
 def sign_up(request):
     if request.method == 'POST':
@@ -55,10 +59,11 @@ def user_list(request):
 def show_user(request, user_id):
     try:
         user = User.objects.get(id=user_id)
+        posts = Post.objects.filter(author=user)
     except ObjectDoesNotExist:
         return redirect('user_list')
     else:
-        return render(request, 'show_user.html', {'user': user})
+        return render(request, 'show_user.html', {'user': user, 'posts': posts})
 
 def new_post(request):
     if request.method == 'POST':
