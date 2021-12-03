@@ -154,6 +154,11 @@ class UserModelTestCase(TestCase):
         self.assertEqual(peter.follower_count(), 2)
         self.assertEqual(peter.followee_count(), 0)
 
+    def test_user_can_not_follow_self(self):
+        self.user.toggle_follow(self.user)
+        self.assertEqual(self.user.follower_count(), 0)
+        self.assertEqual(self.user.followee_count(), 0)
+
 
 
     def _assert_user_is_valid(self):
