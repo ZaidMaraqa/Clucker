@@ -2,10 +2,10 @@ from django.test import TestCase
 from microblogs.forms import LogInForm
 from django.urls import reverse
 from django.contrib import messages
-from microblogs.tests.helpers import LogInTester, reverse_with_next
+from microblogs.tests.helpers import LogInTester, reverse_with_next, MenuTesterMixin
 from microblogs.models import User
 
-class LogInViewTestCase(TestCase, LogInTester):
+class LogInViewTestCase(TestCase, LogInTester, MenuTesterMixin):
 
 
     fixtures = ['microblogs/tests/fixtures/default_user.json']
@@ -28,6 +28,7 @@ class LogInViewTestCase(TestCase, LogInTester):
         self.assertFalse(next)
         messages_list = list(response.context['messages'])
         self.assertEqual(len(messages_list), 0)
+        self.asssert_no_menu(response)
 
     def test_get_log_in_with_redirect(self):
         destination_url = reverse('user_list')
@@ -72,6 +73,7 @@ class LogInViewTestCase(TestCase, LogInTester):
         self.assertTemplateUsed(response, 'feed.html')
         messages_list = list(response.context['messages'])
         self.assertEqual(len(messages_list), 0)
+        self.assert_menu(response)
 
     def test_successful_log_in_with_redirect(self):
         redirect_url = reverse('user_list')

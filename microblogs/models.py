@@ -20,6 +20,9 @@ class User(AbstractUser):
         'self', symmetrical=False, related_name='followees'
     )
 
+    class Meta:
+        ordering = ['last_name', 'first_name']
+
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
 
@@ -33,7 +36,7 @@ class User(AbstractUser):
 
     def toggle_follow(self, followee):
         if followee == self:
-            return 
+            return
         if self.is_following(followee):
             self._unfollow(followee)
         else:

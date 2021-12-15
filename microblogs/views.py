@@ -105,6 +105,7 @@ class UserListView(LoginRequiredMixin, ListView):
     model = User
     template_name = "user_list.html"
     context_object_name = "users"
+    paginate_by = settings.USERS_PER_PAGE
 
 class ShowUserView(DetailView):
     model = User
